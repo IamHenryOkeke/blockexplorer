@@ -21,52 +21,82 @@ const settings = {
 const alchemy = new Alchemy(settings);
 
 const App = () => {
-  const [data, setData] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+
+  // initializing the needed state variables for project
+  const [data, setData] = useState(null);
+  const [value, setValue] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [blockNumber, setBlockNumber] = useState("");
-  const [nonce, setNonce] = useState("");
   const [hash, setHash] = useState("");
   const [gasLimit, setGasLimit] = useState("");
   const [gasUsed, setGasUsed] = useState("");
   const [numberOfTxns, setNumberOfTxns] = useState("");
   const [timeStamp, setTimeStamp] = useState("");
+
   // function to add commas to figures
-  function numberWithCommas(number) {
+  const numberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  useEffect(() => {
-    const getBlockNumber = async () => {
-      const newBlockNumber = await alchemy.core.getBlockNumber();
-      const blockTxns = await alchemy.core.getBlockWithTransactions(newBlockNumber);
-      setData(blockTxns)
-      console.log(blockTxns)
 
-      setBlockNumber(blockTxns.number);
-      setHash(blockTxns.hash);
-      setGasLimit(parseInt(blockTxns.gasLimit._hex, 16));
-      setGasUsed(parseInt(blockTxns.gasUsed._hex, 16));
-      setNonce(blockTxns.nonce);
-      setNumberOfTxns((blockTxns.transactions).length)
-      setTimeStamp(new Date(blockTxns.timestamp * 1000))
-      setIsLoading(false)
+  // function to update state variable values
+  const setStateValues = (obj) => {
+    setData(obj);
+    console.log(obj);
+    setBlockNumber(obj.number);
+    setHash(obj.hash);
+    setGasLimit(parseInt(obj.gasLimit._hex, 16));
+    setGasUsed(parseInt(obj.gasUsed._hex, 16));
+    setNumberOfTxns((obj.transactions).length);
+    setTimeStamp(new Date(obj.timestamp * 1000));
+    setIsLoading(false);
+    setError("");
+  }
+
+  // function to fetch data and set state values
+  const getBlockNumber = async (blockNum) => {
+    try {
+      let blockTransactions;
+      if (blockNum === "") {
+        blockNum = await alchemy.core.getBlockNumber();
+        blockTransactions = await alchemy.core.getBlockWithTransactions(blockNum);
+      } else {
+        blockTransactions = await alchemy.core.getBlockWithTransactions(Number(blockNum));
+      }
+      setStateValues(blockTransactions);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+      setError("Oopps!!!!!!! Could not fetch data. Please check your internet connection");
     }
+  }
 
-    getBlockNumber();
+  const handleOnChange = (e) => {
+    setValue(e.target.value);
+  }
+
+  const handleSubmitRequest = (e) => {
+    e.preventDefault();
+    getBlockNumber(value);
+  }
+  
+  useEffect(() => {
+    getBlockNumber("");
   }, []);
 
   return (
     <div className="App">
-      <Navbar></Navbar>
-      <div className='input-field'>
-        <input type="text" placeholder='Enter block number' />
-        <button>Search</button>
-      </div>
+      <Navbar />
+      <form className='input-field'>
+        <input type="text" placeholder='Enter block number' onChange={handleOnChange} pattern="[0-9]" />
+        <button onClick={handleSubmitRequest}>Search</button>
+      </form>
       <div className="block-details">
         {isLoading && <div>Loading Data.....</div>}
+        {error && <div>{error}</div>}
         {data && <div>
           <p>Block Number: {blockNumber}</p>
           <p>Block Hash: {hash}</p>
-          <p>Nonce: {nonce}</p>
           <p>Gas used: {numberWithCommas(gasUsed)} ({((gasUsed / gasLimit) * 100).toFixed(2)}% gas used)</p>
           <p>Gas Limit: {numberWithCommas(gasLimit)}</p>
           <p>{numberOfTxns} transactions in this block</p>
