@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import TransactionDetails from './components/TransactionDetails';
 import './App.css';
 import Navbar from './components/Navbar';
+import BlockDetails from './components/BlockDetails';
 
 // Refer to the README doc for more information about using API
 // keys in client-side code. You should never do this in production
@@ -67,44 +68,59 @@ const App = () => {
     } catch (error) {
       setIsLoading(false);
       console.error(error);
-      setError("Oopps!!!!!!! Could not fetch data. Please check your internet connection");
+      setError("Oopps!!!!!!! Could not fetch data. Please enter a valid block number or check your internet connection");
     }
   }
 
   const handleOnChange = (e) => {
-    setValue(e.target.value);
+    // removes any letter in the input field
+    const numOnlyInput = e.target.value.replace(/\D/g, '');
+    setValue(numOnlyInput);
   }
 
   const handleSubmitRequest = (e) => {
     e.preventDefault();
     getBlockNumber(value);
   }
-  
+
   useEffect(() => {
-    getBlockNumber("");
-  }, []);
+    setIsLoading(true)
+    setData(null)
+    getBlockNumber(value);
+    console.log("use effect ran")
+  }, [value]);
 
   return (
     <div className="App">
       <Navbar />
       <form className='input-field'>
-        <input type="text" placeholder='Enter block number' onChange={handleOnChange} pattern="[0-9]" />
+        <input type="text" value={value} placeholder='Enter a valid block number' onChange={handleOnChange} />
         <button onClick={handleSubmitRequest}>Search</button>
       </form>
       <div className="block-details">
         {isLoading && <div>Loading Data.....</div>}
         {error && <div>{error}</div>}
         {data && <div>
-          <p>Block Number: {blockNumber}</p>
-          <p>Block Hash: {hash}</p>
-          <p>Gas used: {numberWithCommas(gasUsed)} ({((gasUsed / gasLimit) * 100).toFixed(2)}% gas used)</p>
-          <p>Gas Limit: {numberWithCommas(gasLimit)}</p>
-          <p>{numberOfTxns} transactions in this block</p>
-          <p>Timestamp:  {`${timeStamp}`}</p>
+          <h2>Block Details</h2>
+          <div>
+            <p>Block Number: {blockNumber}</p>
+            <p>Block Hash: {hash}</p>
+            <p>Gas used: {numberWithCommas(gasUsed)} ({((gasUsed / gasLimit) * 100).toFixed(2)}% gas used)</p>
+            <p>Gas Limit: {numberWithCommas(gasLimit)}</p>
+            <p>{numberOfTxns} transactions in this block</p>
+            <p>Timestamp:  {`${timeStamp}`}</p>
+          </div>
         </div>
         }
       </div>
-      <div className='transaction-details'>{data && <TransactionDetails data={data.transactions} />}</div>
+      <div className='transaction-details'>
+        {data &&
+          <div>
+            <h2>Block Transactions Details</h2>
+            <TransactionDetails data={data.transactions} />
+          </div>
+        }
+      </div>
     </div>
   );
 }
