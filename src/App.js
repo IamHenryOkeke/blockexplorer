@@ -1,9 +1,7 @@
 import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
 import TransactionDetails from './components/TransactionDetails';
-import './App.css';
 import Navbar from './components/Navbar';
-import BlockDetails from './components/BlockDetails';
 
 // Refer to the README doc for more information about using API
 // keys in client-side code. You should never do this in production
@@ -87,24 +85,23 @@ const App = () => {
     setIsLoading(true)
     setData(null)
     getBlockNumber(value);
-    console.log("use effect ran")
   }, [value]);
 
   return (
-    <div className="App">
+    <div className="font-body text-center mx-3 mt-3">
       <Navbar />
-      <form className='input-field'>
-        <input type="text" value={value} placeholder='Enter a valid block number' onChange={handleOnChange} />
-        <button onClick={handleSubmitRequest}>Search</button>
+      <form className='input-field my-4 flex gap-2 justify-center'>
+        <input className='border-2 border-[#f1356d] rounded pl-1' type="text" value={value} placeholder='Enter a valid block number' onChange={handleOnChange} />
+        <button  className='border-2 border-[#f1356d] rounded px-2' onClick={handleSubmitRequest}>Search</button>
       </form>
       <div className="block-details">
         {isLoading && <div>Loading Data.....</div>}
         {error && <div>{error}</div>}
         {data && <div>
-          <h2>Block Details</h2>
-          <div>
+          <h2 className="text-2xl font-bold">Block Details</h2>
+          <div className='flex flex-col gap-2'>
             <p>Block Number: {blockNumber}</p>
-            <p>Block Hash: {hash}</p>
+            <p className='break-words'>Block Hash: {hash}</p>
             <p>Gas used: {numberWithCommas(gasUsed)} ({((gasUsed / gasLimit) * 100).toFixed(2)}% gas used)</p>
             <p>Gas Limit: {numberWithCommas(gasLimit)}</p>
             <p>{numberOfTxns} transactions in this block</p>
@@ -115,8 +112,8 @@ const App = () => {
       </div>
       <div className='transaction-details'>
         {data &&
-          <div>
-            <h2>Block Transactions Details</h2>
+          <div className='mt-5 flex flex-col gap-2'>
+            <h2 className="text-2xl font-bold">Block Transactions Details</h2>
             <TransactionDetails data={data.transactions} />
           </div>
         }
