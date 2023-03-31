@@ -88,11 +88,11 @@ const App = () => {
   }, [value]);
 
   return (
-    <div className="font-body text-center mx-3 mt-3">
+    <div className="App font-body text-center mx-3 mt-3 md:w-[80%] md:mx-auto lg:w-[60%]">
       <Navbar />
       <form className='input-field my-4 flex gap-2 justify-center'>
         <input className='border-2 border-[#f1356d] rounded pl-1' type="text" value={value} placeholder='Enter a valid block number' onChange={handleOnChange} />
-        <button  className='border-2 border-[#f1356d] rounded px-2' onClick={handleSubmitRequest}>Search</button>
+        <button  className='border-2 border-[#f1356d] rounded px-2 hover:bg-red-100' onClick={handleSubmitRequest}>Search</button>
       </form>
       <div className="block-details">
         {isLoading && <div>Loading Data.....</div>}
