@@ -36,14 +36,14 @@ const TransactionDetails = ({ data }) => {
       </div>
       <ReactPaginate
         breakLabel="..."
-        nextLabel="next >"
+        nextLabel="Next"
         onPageChange={handlePageClick}
         pageRangeDisplayed={5}
         pageCount={pageCount}
-        previousLabel="< previous"
+        previousLabel="Previous"
         renderOnZeroPageCount={null}
-        containerClassName = "pagination list-none flex justify-center items-center gap-1 m-5 text-sm"
-        pageLinkClassName='page-num px-[15px] py-[8px] cursor-pointer rounded-[3px] font-normal hover:bg-gray-500'
+        containerClassName = "pagination list-none flex flex-wrap justify-center items-center gap-3 m-5 text-[12px] md:text-[15px] lg:text-[15px]"
+        pageLinkClassName='page-num p-[10px] md:px-[15px] md:py-[8px] lg:px-[15px] lg:py-[8px] cursor-pointer rounded-[3px] font-normal hover:bg-gray-500'
         previousLinkClassName='page-num px-2 py-1 bg-blue-500 rounded-[5px]'
         nextLinkClassName='page-num bg-blue-500 px-2 py-1 bg-blue-500 rounded-[5px]'
         activeLinkClassName='active px-2 py-1 bg-blue-500 rounded-[5px]'

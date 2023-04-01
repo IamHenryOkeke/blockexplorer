@@ -16,12 +16,12 @@ const BlockDetails = ({data}) => {
 
     return (
         <div className='flex flex-col gap-2'>
-            <p>Block Number: {blockNumber}</p>
-            <p>Block Hash: {blockHash}</p>
-            <p>Gas used: {numberWithCommas(gasUsed)} ({((gasUsed / gasLimit) * 100).toFixed(2)}% gas used)</p>
-            <p>Gas Limit: {numberWithCommas(gasLimit)}</p>
-            <p>{numberOfTxns} transactions in this block</p>
-            <p>Timestamp:  {`${timeStamp}`}</p>
+            <p className='break-words'>Block Number: {blockNumber}</p>
+            <p className='break-words'>Block Hash: {blockHash}</p>
+            <p className='break-words'>Gas used: {numberWithCommas(gasUsed)} ({((gasUsed / gasLimit) * 100).toFixed(2)}% gas used)</p>
+            <p className='break-words'>Gas Limit: {numberWithCommas(gasLimit)}</p>
+            <p className='break-words'>{numberOfTxns} transactions in this block</p>
+            <p className='break-words'>Timestamp:  {`${timeStamp}`}</p>
         </div>
     )
 }
