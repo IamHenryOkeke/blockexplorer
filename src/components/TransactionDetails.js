@@ -27,7 +27,7 @@ const TransactionDetails = ({ data }) => {
         {currentItems.map((item, index) => {
           return (
             <div className="transaction text-[14px] md:text-base bg-gray-100 border border-[#ceb9bf] rounded-md py-2 px-1" key={index} id={index}>
-              <Link to={`/transactionReceipt/${item.hash}`} className='break-words hover:underline'>Transaction Hash: {item.hash}</Link>
+              <Link to={`/blockexplorer/transactionReceipt/${item.hash}`} className='break-words hover:underline'>Transaction Hash: {item.hash}</Link>
               <p className='break-words'>From: {item.from}</p>
               <p className='break-words'>To: {item.to}</p>
               <p>Value: {(parseInt(item.value._hex, 16)) / 10 ** 18} Eth</p>

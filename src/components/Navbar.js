@@ -11,7 +11,7 @@ const Navbar = () => {
                 <h1 className="logo text-[#6b6869]">EthExplorer</h1>
             </a>
             <nav className="links flex gap-2 md:gap-5 lg:gap-7 text-[#a07281]">
-                <Link to="/">
+                <Link to="/blockexplorer">
                     <Button variant='outlined' size='small'>Home</Button>
                 </Link>
                 <Link to="/contact">
