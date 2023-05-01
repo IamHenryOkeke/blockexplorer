@@ -1,19 +1,19 @@
 import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
-import TransactionDetails from './components/TransactionDetails';
 import Navbar from './components/Navbar';
-import BlockDetails from './components/BlockDetails';
+import Home from './components/Home';
+import Contact from './components/Contact';
+import TransactionReceipt from './components/TransactionReceipt';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Refer to the README doc for more information about using API
-// keys in client-side code. You should never do this in production
-// level code.
+
 const settings = {
   apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
   network: Network.ETH_MAINNET,
 };
 
 
-// In this week's lessons we used ethers.js. Here we are using the
+
 // Alchemy SDK is an umbrella library with several different packages.
 //
 // You can read more about the packages here:
@@ -29,15 +29,22 @@ const App = () => {
 
   // function to update state variable values
   const setStateValues = (obj) => {
-    setData(obj);
-    console.log(obj);
-    setIsLoading(false);
-    setError("");
+    if (obj) {
+      setData(obj);
+      console.log(obj);
+      setIsLoading(false);
+      setError("");
+    } else {
+      setIsLoading(false);
+      setError("Oopps!!!!!!! Could not fetch data. Please enter a valid block number or check your internet connection");
+    }
+
   }
 
   // function to fetch data and set state values
   const getBlockNumber = async (blockNum) => {
     setIsLoading(true);
+    setError("");
     setData(null);
     try {
       let blockTransactions;
@@ -50,9 +57,9 @@ const App = () => {
       setStateValues(blockTransactions);
     } catch (error) {
       setIsLoading(false);
-      console.error(error);
       setError("Oopps!!!!!!! Could not fetch data. Please enter a valid block number or check your internet connection");
     }
+
   }
 
   // function to handle changes in input field
@@ -72,29 +79,20 @@ const App = () => {
   }, [value]);
 
   return (
-    <div className="App font-body text-center mx-3 mt-3 md:w-[80%] md:mx-auto lg:w-[60%]">
-      <Navbar />
-      <div className='input-field my-4 flex gap-2 justify-center'>
-        <input className='border-2 border-[#f1356d] rounded pl-1' type="text" value={value} placeholder='Enter a valid block number' onChange={handleOnChange} />
-        <button className='border-2 border-[#f1356d] rounded px-2 hover:bg-red-100' onClick={handleRefreshRequest}>Refresh</button>
-      </div>
-      <div className="block-details">
-        {isLoading && <div>Loading Data.....</div>}
-        {error && <div>{error}</div>}
-        {data && <div>
-          <h2 className="text-2xl font-bold">Block Details</h2>
-          <BlockDetails data={data} />
-        </div>
-        }
-      </div>
-      <div className='transaction-details'>
-        {data &&
-          <div className='mt-5 flex flex-col gap-2'>
-            <h2 className="text-2xl font-bold">Block Transactions Details</h2>
-            <TransactionDetails data={data.transactions} />
-          </div>
-        }
-      </div>
+    <div className="App font-body text-center md:w-[80%] md:mx-auto lg:w-[60%]">
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home isLoading={isLoading} value={value} handleOnChange={handleOnChange} handleRefreshRequest={handleRefreshRequest} data={data} error={error} />}>
+          </Route>
+          <Route path="/transactionReceipt/:hash" element={<TransactionReceipt/>}>
+          </Route>
+          <Route path="/contact" element = {<Contact/>}>
+          </Route>
+        </Routes>
+        
+      </BrowserRouter>
+
     </div>
   );
 }

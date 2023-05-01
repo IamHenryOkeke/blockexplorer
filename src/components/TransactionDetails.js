@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactPaginate from 'react-paginate';
+import { Link } from 'react-router-dom';
 
 const TransactionDetails = ({ data }) => {
 
@@ -25,8 +26,8 @@ const TransactionDetails = ({ data }) => {
       <div className='transaction-container flex flex-col gap-2'>
         {currentItems.map((item, index) => {
           return (
-            <div className="transaction border border-[#ceb9bf] rounded py-2 px-1" key={index} id={index}>
-              <p className='break-words'>Transaction Hash: {item.hash}</p>
+            <div className="transaction text-[14px] md:text-base bg-gray-100 border border-[#ceb9bf] rounded-md py-2 px-1" key={index} id={index}>
+              <Link to={`/transactionReceipt/${item.hash}`} className='break-words hover:underline'>Transaction Hash: {item.hash}</Link>
               <p className='break-words'>From: {item.from}</p>
               <p className='break-words'>To: {item.to}</p>
               <p>Value: {(parseInt(item.value._hex, 16)) / 10 ** 18} Eth</p>
