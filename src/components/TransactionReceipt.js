@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import useAlchemy from './useAlchemy';
 
@@ -33,7 +33,7 @@ const TransactionReceipt = ({ value }) => {
   }, []);
 
   return (
-    <div className='mt-10'>
+    <div className='mt-10 mx-3 md:mx-0'>
       {isLoading && <div>Loading Data.....</div>}
       {error && <div>{error}</div>}
       {data && <div className='flex flex-col gap-3 md:gap-5 bg-gray-100 border border-[#ceb9bf] rounded-md text-[14.6px] md:text-base py-3 px-1'>
