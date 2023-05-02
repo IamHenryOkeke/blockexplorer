@@ -1,24 +1,12 @@
-import { Alchemy, Network } from 'alchemy-sdk';
 import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Contact from './components/Contact';
 import TransactionReceipt from './components/TransactionReceipt';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import useAlchemy from './components/useAlchemy';
 
 
-const settings = {
-  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
-  network: Network.ETH_MAINNET,
-};
-
-
-
-// Alchemy SDK is an umbrella library with several different packages.
-//
-// You can read more about the packages here:
-//   https://docs.alchemy.com/reference/alchemy-sdk-api-surface-overview#api-surface
-const alchemy = new Alchemy(settings);
 
 const App = () => {
   // initializing the needed state variables for project
@@ -26,6 +14,9 @@ const App = () => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+
+  // import useAlchemy hook
+  const [alchemy] = useAlchemy()
 
   // function to update state variable values
   const setStateValues = (obj) => {

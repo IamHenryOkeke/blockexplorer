@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-
-import { Alchemy, Network } from 'alchemy-sdk';
-
-const settings = {
-  apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
-  network: Network.ETH_MAINNET,
-};
-
-const alchemy = new Alchemy(settings);
-
-
+import useAlchemy from './useAlchemy';
 
 const TransactionReceipt = ({ value }) => {
   let { hash } = useParams();
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  // import useAlchemy hook
+  const [alchemy] = useAlchemy()
 
   const getTransactionReceipt = async (hash) => {
     setIsLoading(true);
