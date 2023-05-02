@@ -7,7 +7,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar flex justify-between text-lg mx-3 mt-3 mb-6">
-            <a href="/">
+            <a href="/blockexplorer">
                 <h1 className="logo text-[#6b6869]">EthExplorer</h1>
             </a>
             <nav className="links flex gap-2 md:gap-5 lg:gap-7 text-[#a07281]">
