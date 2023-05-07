@@ -78,7 +78,7 @@ const App = () => {
           </Route>
           <Route path="/blockexplorer/transactionReceipt/:hash" element={<TransactionReceipt/>}>
           </Route>
-          <Route path="/contact" element = {<Contact/>}>
+          <Route path="/blockexplorer/contact" element = {<Contact/>}>
           </Route>
         </Routes>
         

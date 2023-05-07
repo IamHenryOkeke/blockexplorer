@@ -14,7 +14,7 @@ const Navbar = () => {
                 <Link to="/blockexplorer">
                     <Button variant='outlined' size='small'>Home</Button>
                 </Link>
-                <Link to="/contact">
+                <Link to="/blockexplorer/contact">
                     <Button variant='outlined' size='small'>Contact</Button>
                 </Link>
             </nav> 
