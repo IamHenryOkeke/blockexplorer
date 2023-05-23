@@ -74,11 +74,11 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/blockexplorer" element={<Home isLoading={isLoading} value={value} handleOnChange={handleOnChange} handleRefreshRequest={handleRefreshRequest} data={data} error={error} />}>
+          <Route path="/" element={<Home isLoading={isLoading} value={value} handleOnChange={handleOnChange} handleRefreshRequest={handleRefreshRequest} data={data} error={error} />}>
           </Route>
-          <Route path="/blockexplorer/transactionReceipt/:hash" element={<TransactionReceipt/>}>
+          <Route path="/transactionReceipt/:hash" element={<TransactionReceipt/>}>
           </Route>
-          <Route path="/blockexplorer/contact" element = {<Contact/>}>
+          <Route path="/contact" element = {<Contact/>}>
           </Route>
         </Routes>
         
